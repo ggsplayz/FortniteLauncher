@@ -11,8 +11,8 @@
 3. When prompted, paste your Fortnite build (example; C:\Fortnite), this is the folder that contains FortniteGame and Engine.
 4. When prompted, put your mail (if backend needs one)
 5. When prompted, put your password (if backend doesnt needs, just put a random bunch)
-6. Select a PORT, which needs to be where your local backend is running. You can use [LawinServer](https://github.com/Lawin0129/LawinServer) for example.
-7. Wait fort Fortnite to start, if doesn't start, you can turn off your AV and check the Currently working Builds table down below.
+6. Select a PORT, which needs to be where your local backend is running. You can use [LawinServer](https://github.com/Lawin0129/LawinServer) for example. (Also, you can add your own custom PORT option, it will need a new [Cobalt](https://github.com/Milxnor/Cobalt))
+7. Wait for Fortnite to start, if doesn't start, you can turn off your AV and check the Currently working Builds table down below.
 
 # Currently working Builds
 
