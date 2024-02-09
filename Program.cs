@@ -1,23 +1,64 @@
-﻿using System;
+using Newtonsoft.Json; // REMEMBER TO CHECK IF PACKAGE IS INSTALLED!
 using System.Diagnostics;
-using System.IO;
 using System.Net;
-using ggsLauncher;
-//...
 
 namespace ggsLauncher
 {
     public class Program
     {
-        public static string ruta;
+        public static string path;
         public static string mail;
         public static string pass;
         public static string downloadpath = Path.GetTempPath();
-
+        public static string configFile = "config.json";
 
         public static void Main()
         {
-            ActualProgram();
+            if (File.Exists(configFile))
+            {
+                LoadConfig();
+                PortSelection();
+            }
+            else
+            {
+                ActualProgram();
+            }
+            
+        }
+
+
+        // V1.5 is here, featuring loading and saving launch configuration! (Path, Mail and Password)
+        public static void LoadConfig()
+        {
+            if (File.Exists(configFile))
+            {
+                string json = File.ReadAllText(configFile);
+                dynamic config = JsonConvert.DeserializeObject(json);
+                path = config.path;
+                mail = config.mail;
+                pass = config.pass;
+                Console.WriteLine("Loading Saved Configuration...");
+                Thread.Sleep(1000); 
+            }
+            else
+            {
+                File.Create(configFile);
+                path = "";
+                mail = "";
+                pass = "";
+            }
+        }
+
+        public static void SaveConfig()
+        {
+            dynamic config = new
+            {
+                path,
+                mail,
+                pass
+            };
+            string json = JsonConvert.SerializeObject(config, Formatting.Indented);
+            File.WriteAllText(configFile, json);
         }
 
         public static void ActualProgram()
@@ -27,7 +68,7 @@ namespace ggsLauncher
             Console.WriteLine(" ");
             Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
             Console.WriteLine(" ");
-            ruta = Console.ReadLine();
+            path = Console.ReadLine();
             Console.WriteLine(" ");
             Console.WriteLine("Enter the name/email that you use");
             Console.WriteLine(" ");
@@ -37,6 +78,21 @@ namespace ggsLauncher
             Console.WriteLine(" ");
             pass = Console.ReadLine();
             Console.WriteLine(" ");
+            try
+            {
+                SaveConfig();
+                Console.WriteLine($"Saved Configuration to \\config.json");
+                Thread.Sleep(1000);
+            }
+            catch 
+            {
+                Console.WriteLine("Configuration not saved! Continuing...");
+            }
+            PortSelection();
+        }
+
+        public static void PortSelection()
+        {
             Console.Clear();
             Console.WriteLine("Select the PORT to redirect to. (1,2,3...)");
             Console.WriteLine(" ");
@@ -60,14 +116,13 @@ namespace ggsLauncher
                         break;
                 }
             }
-            else 
+            else
             {
                 Console.WriteLine("Pick a port and press enter 1,2 or 3");
                 Console.ReadKey();
                 Console.Clear();
                 ActualProgram();
             }
-
         }
 
         // Void for every Port, add more if needed
@@ -80,14 +135,14 @@ namespace ggsLauncher
             */
             Console.Clear();
             Console.WriteLine("[LOG] USING 3551.dll");
-            string FortniteEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
-            string EasyACEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
-            string FortniteBEEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
+            string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
+            string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
 
             WebClient n1 = new WebClient();
             try
             {
-                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187109875109613598/3551.dll", Path.Combine(ruta, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187109875109613598/3551.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
                 Console.WriteLine("[LOG] PATCHED FILES");
             }
             catch
@@ -141,14 +196,14 @@ namespace ggsLauncher
             */
             Console.Clear();
             Console.WriteLine("[LOG] USING 8008.dll");
-            string FortniteEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
-            string EasyACEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
-            string FortniteBEEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
+            string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
+            string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
 
             WebClient n1 = new WebClient();
             try
             {
-                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187111378864046191/8008.dll", Path.Combine(ruta, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187111378864046191/8008.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
                 Console.WriteLine("[LOG] PATCHED FILES");
             }
             catch
@@ -201,14 +256,14 @@ namespace ggsLauncher
             */
             Console.Clear();
             Console.WriteLine("[LOG] USING 7777.dll");
-            string FortniteEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
-            string EasyACEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
-            string FortniteBEEXE = Path.Combine(ruta, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
+            string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
+            string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
 
             WebClient n1 = new WebClient();
             try
             {
-                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187111301126815854/7777.dll", Path.Combine(ruta, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187111301126815854/7777.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
                 Console.WriteLine("[LOG] PATCHED FILES");
             }
             catch
