@@ -4,7 +4,7 @@
 [![yt](https://cdn.discordapp.com/attachments/1187061667759136858/1188063849656619008/bruh.png)](https://www.youtube.com/channel/UC3haRZzqQnB_xOcz7MNxC_Q)
 
 ## Features
-- Saving / Loafing Configuration
+- Saving / Loading Configuration
 
 ## TO-DOs / Planned
 - Better UI
@@ -45,7 +45,6 @@ This work is licensed under the [Creative Commons Attribution-NonCommercial 4.0 
 
 - **Share** — copy and redistribute the material in any medium or format.
 - **Adapt** — remix, transform, and build upon the material.
-- 
 **Under the following terms:**
 
 - **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
