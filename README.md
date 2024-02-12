@@ -36,6 +36,10 @@
 | 13.00 |  |
 | 13.40-CL-14113327 |  |
 
+# Known broken Builds
+| Build | Note |
+| ------ | ------ |
+| 6.21 | Crashes at start |
 
 ## (Be-Aware-Of) License
 
