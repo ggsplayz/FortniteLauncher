@@ -1,6 +1,6 @@
 # FortniteLauncher
 ### A basic Fortnite Launcher, useful for Private Servers!
-[![image](https://drive.google.com/file/d/1c90lFVvmQTVm484pZkxxNgUN2REM1y8b/view?usp=sharing)]
+[![image](https://imgur.com/QL3wXkW)]
 
 ## Features
 - Saving / Loading Configuration
