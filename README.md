@@ -7,12 +7,12 @@
 
 ## TO-DOs / Planned
 - Better UI
-- Headless Fortnite Launching??
-- Hybrid??
+- Headless Fortnite Launching
+- Hybrid (Integrated Backend)
 
 ## Usage
 
-1. Download latest build / compile the VS Project.
+1. Download latest build / compile the VS Project. (Remember to check if all packages are installed)
 2. Open the launcher EXE, as-administrator recommended.
 3. When prompted, paste your Fortnite build (example; C:\Fortnite), this is the folder that contains FortniteGame and Engine.
 4. When prompted, put your mail (if backend needs one)
