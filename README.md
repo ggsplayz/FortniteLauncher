@@ -7,7 +7,6 @@
 
 ## TO-DOs / Planned
 - Better UI
-- Change the name (bruh)
 - Headless Fortnite Launching??
 - Hybrid??
 
