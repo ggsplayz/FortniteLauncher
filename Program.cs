@@ -14,6 +14,7 @@ namespace ggsLauncher
 
         public static void Main()
         {
+            Console.Title = "FortniteLauncher - Made by ggsplayz";
             if (File.Exists(configFile))
             {
                 LoadConfig();
@@ -63,7 +64,13 @@ namespace ggsLauncher
 
         public static void ActualProgram()
         {
-            Console.WriteLine($"\r\n                 _                           _               \r\n  __ _  __ _ ___| |    __ _ _   _ _ __   ___| |__   ___ _ __ \r\n / _` |/ _` / __| |   / _` | | | | '_ \\ / __| '_ \\ / _ \\ '__|\r\n| (_| | (_| \\__ \\ |__| (_| | |_| | | | | (__| | | |  __/ |   \r\n \\__, |\\__, |___/_____\\__,_|\\__,_|_| |_|\\___|_| |_|\\___|_|   \r\n |___/ |___/      ");
+            Console.WriteLine(@"
+______         _         _ _       _                            _               
+|  ___|       | |       (_) |     | |                          | |              
+| |_ ___  _ __| |_ _ __  _| |_ ___| |     __ _ _   _ _ __   ___| |__   ___ _ __ 
+|  _/ _ \| '__| __| '_ \| | __/ _ \ |    / _` | | | | '_ \ / __| '_ \ / _ \ '__|
+| || (_) | |  | |_| | | | | ||  __/ |___| (_| | |_| | | | | (__| | | |  __/ |   
+\_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|");
             Console.WriteLine(" ");    
             Console.WriteLine(" ");
             Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
