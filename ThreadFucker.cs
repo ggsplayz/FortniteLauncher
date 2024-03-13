@@ -5,6 +5,8 @@ namespace ggsLauncher
 {
     public static class Win32
     {
+        // Did not update this in 3 months, It is ok I hope
+        
         #region Constantes
 
         public const int PROCESS_CREATE_THREAD = 2;
