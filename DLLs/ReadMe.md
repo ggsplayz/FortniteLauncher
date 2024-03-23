@@ -1,2 +1,2 @@
 # DLLs
-## This folder is for uploading all the redirection dlls
+This folder is made for uploading all the redirection dlls
