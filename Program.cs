@@ -9,7 +9,6 @@ namespace ggsLauncher
         public static string path;
         public static string mail;
         public static string pass;
-        public static string logfilepath;
         public static string downloadpath = Path.GetTempPath();
         public static string configFile = "config.json";
 
