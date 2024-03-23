@@ -11,10 +11,21 @@ namespace ggsLauncher
         public static string pass;
         public static string downloadpath = Path.GetTempPath();
         public static string configFile = "config.json";
+        public static string logFile = "LOG.txt";
 
         public static void Main()
         {
             Console.Title = "FortniteLauncher - Made by ggsplayz";
+            
+            if (File.Exists(logFile))
+            {
+                File.Delete(logFile);
+
+            } else if (!File.Exists(logFile))
+            {
+                using (StreamWriter sw = File.CreateText(logFile)) { }
+            }
+
             if (File.Exists(configFile))
             {
                 LoadConfig();
@@ -27,8 +38,23 @@ namespace ggsLauncher
             
         }
 
+        static void Log(string message)
+        {
+            try
+            {
+                string finalLog = $"[{DateTime.Now}] - {message}";
+                using (StreamWriter sw = File.AppendText(logFile))
+                {
+                    sw.WriteLine(finalLog);
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
 
-        // V1.5 is here, featuring loading and saving launch configuration! (Path, Mail and Password)
+        // V1.5
         public static void LoadConfig()
         {
             if (File.Exists(configFile))
@@ -64,6 +90,7 @@ namespace ggsLauncher
 
         public static void ActualProgram()
         {
+            Log("The launcher was run without any previous configuration");
             Console.WriteLine(@"
 ______         _         _ _       _                            _               
 |  ___|       | |       (_) |     | |                          | |              
@@ -75,25 +102,31 @@ ______         _         _ _       _                            _
             Console.WriteLine(" ");
             Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
             Console.WriteLine(" ");
-            path = Console.ReadLine();
+            path = Console.ReadLine(); 
+            Log($"Local variable ´path´ was changed to {path}");
             Console.WriteLine(" ");
             Console.WriteLine("Enter the name/email that you use");
             Console.WriteLine(" ");
             mail = Console.ReadLine();
+            Log($"Local variable ´mail´ was changed to {mail}");
             Console.WriteLine(" ");
             Console.WriteLine("Enter the password, put a random one if not needed");
             Console.WriteLine(" ");
             pass = Console.ReadLine();
+            Log($"Local variable ´pass´ was changed to {pass}");
             Console.WriteLine(" ");
             try
             {
                 SaveConfig();
                 Console.WriteLine($"Saved Configuration to \\config.json");
+                Log("Configuration saved successfully");
                 Thread.Sleep(1000);
             }
             catch 
             {
-                Console.WriteLine("Configuration not saved! Continuing...");
+                Console.WriteLine("Configuration not saved! Continuing... (Check if launcher was run as administrator)");
+                Log("Configuration was not saved successfully (Try running as administrator)");
+                Thread.Sleep(1000);
             }
             PortSelection();
         }
@@ -138,10 +171,10 @@ ______         _         _ _       _                            _
         {
             //If download link stops working, means that I deleted the server where the dll was allocated. You can compile other https://github.com/Milxnor/Cobalt
             /*
-            3551 dll: https://cdn.discordapp.com/attachments/1187061667759136858/1187109875109613598/3551.dll
+            3551 dll: https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/3551.dll
             */
             Console.Clear();
-            Console.WriteLine("[LOG] USING 3551.dll");
+            Console.WriteLine("[LOG] USING 3551.dll"); Log("Launch process started using 3551.dll");
             string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
             string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
             string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
@@ -149,12 +182,13 @@ ______         _         _ _       _                            _
             WebClient n1 = new WebClient();
             try
             {
-                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187109875109613598/3551.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Console.WriteLine("[LOG] PATCHED FILES");
+                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/3551.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
             }
             catch
             {
-                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED");
+                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
+                Thread.Sleep(1000);
                 ActualProgram();
             }
             
@@ -185,7 +219,7 @@ ______         _         _ _       _                            _
                 Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
             //Start Fortnite
-            Fortnite.Start();
+            Fortnite.Start(); Log("Fortnite was launched successfully");
             Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
             Fortnite.WaitForExit();
             Console.WriteLine("Press any key to go back to the main screen...");
@@ -199,10 +233,10 @@ ______         _         _ _       _                            _
         {
             //If download link stops working, means that I deleted the server where the dll was allocated. You can compile other https://github.com/Milxnor/Cobalt
             /*
-            8008 dll: https://cdn.discordapp.com/attachments/1187061667759136858/1187111378864046191/8008.dll
+            8008 dll: https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/8008.dll
             */
             Console.Clear();
-            Console.WriteLine("[LOG] USING 8008.dll");
+            Console.WriteLine("[LOG] USING 8008.dll"); Log("Launch process started using 8008.dll");
             string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
             string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
             string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
@@ -210,12 +244,13 @@ ______         _         _ _       _                            _
             WebClient n1 = new WebClient();
             try
             {
-                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187111378864046191/8008.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Console.WriteLine("[LOG] PATCHED FILES");
+                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/8008.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
             }
             catch
             {
-                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED");
+                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
+                Thread.Sleep(1000);
                 ActualProgram();
             }
 
@@ -246,7 +281,7 @@ ______         _         _ _       _                            _
                 Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
             //Start Fortnite
-            Fortnite.Start();
+            Fortnite.Start(); Log("Fortnite was launched successfully");
             Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
             Fortnite.WaitForExit();
             Console.WriteLine("Press any key to go back to the main screen...");
@@ -259,10 +294,10 @@ ______         _         _ _       _                            _
         {
             //If download link stops working, means that I deleted the server where the dll was allocated. You can compile other https://github.com/Milxnor/Cobalt
             /*
-            7777 dll: https://cdn.discordapp.com/attachments/1187061667759136858/1187111301126815854/7777.dll
+            7777 dll: https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/7777.dll
             */
             Console.Clear();
-            Console.WriteLine("[LOG] USING 7777.dll");
+            Console.WriteLine("[LOG] USING 7777.dll"); Log("Launch process started using 7777.dll");
             string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
             string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
             string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
@@ -270,12 +305,13 @@ ______         _         _ _       _                            _
             WebClient n1 = new WebClient();
             try
             {
-                n1.DownloadFile("https://cdn.discordapp.com/attachments/1187061667759136858/1187111301126815854/7777.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Console.WriteLine("[LOG] PATCHED FILES");
+                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/7777.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
             }
             catch
             {
-                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED");
+                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
+                Thread.Sleep(1000);
                 ActualProgram();
             }
 
@@ -306,7 +342,7 @@ ______         _         _ _       _                            _
                 Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
             //Start Fortnite
-            Fortnite.Start();
+            Fortnite.Start(); Log("Fortnite was launched successfully");
             Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
             Fortnite.WaitForExit();
             Console.WriteLine("Press any key to go back to the main screen...");
