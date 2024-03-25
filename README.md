@@ -4,11 +4,12 @@
 
 ## Features
 - Saving / Loading Configuration
+- Season 13 Hybrid (No ingame support yet)
 
 ## TO-DOs / Planned
 - Better UI
 - Headless Fortnite Launching
-- Hybrid (Integrated Backend)
+- Integrated Backend
 
 ## Usage
 
