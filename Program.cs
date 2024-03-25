@@ -1,6 +1,9 @@
 using Newtonsoft.Json; // REMEMBER TO CHECK IF PACKAGE IS INSTALLED!
+using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Diagnostics;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ggsLauncher
 {
@@ -99,6 +102,33 @@ ______         _         _ _       _                            _
 | || (_) | |  | |_| | | | | ||  __/ |___| (_| | |_| | | | | (__| | | |  __/ |   
 \_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|");
             Console.WriteLine(" ");    
+            Console.WriteLine("Please, select an option and then press ENTER");
+            Console.WriteLine(" ");
+            Console.WriteLine(" * [1] Private");
+            Console.WriteLine(" * [2] Hybrid");
+            Console.WriteLine(" ");
+            Console.Write(" Selection: ");
+            string HybridOrNot = Console.ReadLine();
+            if (HybridOrNot == "1")
+            {
+
+            } 
+            else if (HybridOrNot == "2")
+            {
+                Hybrid();
+            } 
+            else
+            {
+                Environment.Exit(0);
+            }
+            Console.Clear();
+            Console.WriteLine(@"
+______         _         _ _       _                            _               
+|  ___|       | |       (_) |     | |                          | |              
+| |_ ___  _ __| |_ _ __  _| |_ ___| |     __ _ _   _ _ __   ___| |__   ___ _ __ 
+|  _/ _ \| '__| __| '_ \| | __/ _ \ |    / _` | | | | '_ \ / __| '_ \ / _ \ '__|
+| || (_) | |  | |_| | | | | ||  __/ |___| (_| | |_| | | | | (__| | | |  __/ |   
+\_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|");
             Console.WriteLine(" ");
             Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
             Console.WriteLine(" ");
@@ -347,6 +377,123 @@ ______         _         _ _       _                            _
             Fortnite.WaitForExit();
             Console.WriteLine("Press any key to go back to the main screen...");
             Console.ReadKey();
+            Console.Clear();
+            ActualProgram();
+        }
+
+        // S13 Hybrid
+
+        public static string token;
+        public static string exchange;
+        public static string username;
+
+        public static void Hybrid()
+        {
+            Console.Clear();
+            
+            
+            Log("Using S13 Hybrid");
+            
+
+            Console.WriteLine(@"
+______         _         _ _       _                            _               
+|  ___|       | |       (_) |     | |                          | |              
+| |_ ___  _ __| |_ _ __  _| |_ ___| |     __ _ _   _ _ __   ___| |__   ___ _ __ 
+|  _/ _ \| '__| __| '_ \| | __/ _ \ |    / _` | | | | '_ \ / __| '_ \ / _ \ '__|
+| || (_) | |  | |_| | | | | ||  __/ |___| (_| | |_| | | | | (__| | | |  __/ |   
+\_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|    (S13 Hybrid)");
+            Console.WriteLine(" ");
+            Console.WriteLine("Please remember that using Hybrid Season 13 may result on a account ban, using an alt account is recommended!");
+            Console.WriteLine("You will be removed from the match after 5 minutes, because the AntiCheat process will be suspended.");
+            Console.WriteLine(" ");
+            Console.WriteLine("Please, make sure you are using the correct Fortnite Build (13.40-CL-14113327-Windows)");
+            Console.WriteLine(" ");
+            Console.Write("Press any key to continue...");
+            Console.ReadKey();
+            LaunchS13();
+        }
+
+        public static void LaunchS13()
+        {
+            Console.Clear();
+            Console.WriteLine(" ");
+            Console.Write(" When you press any key, you will be redirected to the Epic Games login page...");
+            Console.ReadKey();
+
+            string devicecode = HybridUtils.GetDevicecode(HybridUtils.GetDevicecodetoken());
+            string[] strArray = devicecode.Split(new char[1]
+                {
+                ','
+                }, 2);
+            if (devicecode.Contains("error"))
+                return;
+            token = strArray[0];
+            username = strArray[1];
+
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine($"Logged in as: {username}"); Log($"Logged to an Epic Games Account, id {username}");
+            Console.WriteLine(" ");
+            Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
+            Console.WriteLine(" ");
+            path = Console.ReadLine();
+            Log($"Local variable ´path´ was changed to {path}");
+
+            exchange = HybridUtils.GetExchange(token);
+
+            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
+            string EAC = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
+            string FNLauncher = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+
+            try
+            {
+                WebClient n1 = new WebClient();
+                
+                // This is the dll that allows going ingame, causes crash at this moment (WILL WORK IN THE FUTURE)
+                // n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/S13.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                // Log("Patches game files for S13 Hybrid");
+
+                string arguments1 = "-AUTH_LOGIN=unused -AUTH_PASSWORD=" + exchange + " -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=Prod -epiclocale=en-us -epicportal -noeac -fromfl=be -fltoken=1d2ae436h94ad05b56f91fhc - skippatchcheck";
+                Process Fortnite = new Process
+                {
+                    StartInfo = new ProcessStartInfo(FortniteEXE, arguments1)
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = false,
+                        CreateNoWindow = true
+                    }
+                };
+                Process FNLP = new Process();
+                FNLP.StartInfo.FileName = FNLauncher;
+                FNLP.Start();
+                foreach (ProcessThread thread in FNLP.Threads)
+                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+                Console.WriteLine("[LOG] Suspended FortniteLauncher process"); Log("Suspended FortniteLauncher process");
+                Process EACP = new Process();
+                EACP.StartInfo.FileName = EAC;
+                EACP.StartInfo.Arguments = "-epiclocale=en -fromfl=be -fltoken=1d2ae436h94ad05b56f91fhc -frombe";
+                EACP.Start();
+                foreach (ProcessThread thread in (ReadOnlyCollectionBase)EACP.Threads)
+                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+                Console.WriteLine("[LOG] Suspended EasyAntiCheat process"); Log("Suspended EasyAntiCheat process");
+                Fortnite.Start();
+                Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES"); Log("Started Hybrid Fortnite");
+                Fortnite.WaitForExit();
+                try
+                {
+                    FNLP.Close();
+                    EACP.Close();
+                    Fortnite.Close();
+                }
+                catch
+                {
+
+                }
+            } 
+            catch
+            {
+
+            }
             Console.Clear();
             ActualProgram();
         }
