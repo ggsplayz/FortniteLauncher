@@ -500,4 +500,4 @@ ______         _         _ _       _                            _
     }
 }
 
-// If you see this, leave a start and have a great day!
+// If you see this, leave a star and have a great day!
