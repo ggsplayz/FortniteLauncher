@@ -449,9 +449,9 @@ ______         _         _ _       _                            _
             {
                 WebClient n1 = new WebClient();
                 
-                // This is the dll that allows going ingame, causes crash at this moment (WILL WORK IN THE FUTURE)
-                // n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/S13.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                // Log("Patches game files for S13 Hybrid");
+                // Hybrid (Redir. to port 3551, hybrid backend with matchmaker to epic recommended)
+                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/S13.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                Log("Patches game files for S13 Hybrid");
 
                 string arguments1 = "-AUTH_LOGIN=unused -AUTH_PASSWORD=" + exchange + " -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=Prod -epiclocale=en-us -epicportal -noeac -fromfl=be -fltoken=1d2ae436h94ad05b56f91fhc - skippatchcheck";
                 Process Fortnite = new Process
