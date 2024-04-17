@@ -12,6 +12,7 @@ namespace ggsLauncher
         public static string path;
         public static string mail;
         public static string pass;
+        public static string RedirFilePath;
         public static string downloadpath = Path.GetTempPath();
         public static string configFile = "config.json";
         public static string logFile = "LOG.txt";
@@ -214,6 +215,7 @@ ______         _         _ _       _                            _
             {
                 n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/3551.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
                 Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
             }
             catch
             {
@@ -276,6 +278,7 @@ ______         _         _ _       _                            _
             {
                 n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/8008.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
                 Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
             }
             catch
             {
@@ -337,6 +340,7 @@ ______         _         _ _       _                            _
             {
                 n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/7777.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
                 Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
             }
             catch
             {
@@ -448,10 +452,11 @@ ______         _         _ _       _                            _
             try
             {
                 WebClient n1 = new WebClient();
-                
-                // Hybrid (Redir. to port 3551, hybrid backend with matchmaker to epic recommended)
+
+                // Hybrid (Redir. to port 3551, hybrid backend recommended)
                 n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/S13.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Log("Patches game files for S13 Hybrid");
+                Log("Patched game files for S13 Hybrid");
+                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
 
                 string arguments1 = "-AUTH_LOGIN=unused -AUTH_PASSWORD=" + exchange + " -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=Prod -epiclocale=en-us -epicportal -noeac -fromfl=be -fltoken=1d2ae436h94ad05b56f91fhc - skippatchcheck";
                 Process Fortnite = new Process
