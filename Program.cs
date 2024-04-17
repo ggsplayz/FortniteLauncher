@@ -254,6 +254,8 @@ ______         _         _ _       _                            _
             Fortnite.Start(); Log("Fortnite was launched successfully");
             Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
             Fortnite.WaitForExit();
+            File.Delete(RedirFilePath);
+
             Console.WriteLine("Press any key to go back to the main screen...");
             Console.ReadKey();
             Console.Clear();
@@ -317,6 +319,8 @@ ______         _         _ _       _                            _
             Fortnite.Start(); Log("Fortnite was launched successfully");
             Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
             Fortnite.WaitForExit();
+            File.Delete(RedirFilePath);
+
             Console.WriteLine("Press any key to go back to the main screen...");
             Console.ReadKey();
             Console.Clear();
@@ -379,6 +383,8 @@ ______         _         _ _       _                            _
             Fortnite.Start(); Log("Fortnite was launched successfully");
             Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
             Fortnite.WaitForExit();
+            File.Delete(RedirFilePath);
+
             Console.WriteLine("Press any key to go back to the main screen...");
             Console.ReadKey();
             Console.Clear();
@@ -489,6 +495,7 @@ ______         _         _ _       _                            _
                     FNLP.Close();
                     EACP.Close();
                     Fortnite.Close();
+                    File.Delete(RedirFilePath);
                 }
                 catch
                 {
