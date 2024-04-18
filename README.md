@@ -1,8 +1,14 @@
-# FortniteLauncher
-### A basic Fortnite Launcher, useful for Private Servers!
-![image](https://i.imgur.com/pIlvAMX.jpeg)
+<div align=center>
+  <img src="https://raw.githubusercontent.com/ggsplayz/FN/main/real.png?token=GHSAT0AAAAAACPIF6BVDOE5LXFRKYBLFAWSZRBGDXQ" alt="realimg">
+
+  ### A basic Fortnite Launcher, useful for Private Servers!
+  
+</div>
+<br>
 
 ## Features
+- Launching
+- Lightweight and portable
 - Saving / Loading Configuration
 - Season 13 Hybrid (Needs an Hybrid Backend running at port 3551, you can use [NeoNite](https://github.com/NeoniteDev/NeoniteV2) for example. NO INGAME YET)
 
