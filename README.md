@@ -17,6 +17,9 @@
 - Headless Fortnite Launching
 - Integrated Backend
 
+## Information
+Credits to [Milxnor(https://github.com/Milxnor)] for redirection using [Cobalt](https://github.com/Milxnor/Cobalt)
+
 ## Usage
 
 1. Download latest build / compile the VS Project. (Remember to check if all packages are installed)
@@ -40,11 +43,16 @@
 | 12.41-CL-12905909 | Other S12 builds have not been tested yet |
 | 13.00 |  |
 | 13.40-CL-14113327 |  |
+| 17.30 | Other S17 builds have not been tested yet |
+| 18.40 | Other S18 builds have not been tested yet |
 
 # Known broken Builds
 | Build | Note |
 | ------ | ------ |
 | 6.21 | Crashes at start |
+| 15.50 | Crashes at EOS Check |
+
+
 
 ## (Be-Aware-Of) License
 
