@@ -18,7 +18,7 @@
 - Integrated Backend
 
 ## Information
-Credits to [Milxnor(https://github.com/Milxnor)] for redirection using [Cobalt](https://github.com/Milxnor/Cobalt)
+Credits to [Milxnor](https://github.com/Milxnor) for redirection using [Cobalt](https://github.com/Milxnor/Cobalt)
 
 ## Usage
 
