@@ -1,5 +1,5 @@
 <div align=center>
-  <img src="https://raw.githubusercontent.com/ggsplayz/FN/main/real.png?token=GHSAT0AAAAAACPIF6BVDOE5LXFRKYBLFAWSZRBGDXQ" alt="realimg">
+  <img src="https://github.com/ggsplayz/FN/blob/main/real.png" alt="realimg">
 
   ### A basic Fortnite Launcher, useful for Private Servers!
   
