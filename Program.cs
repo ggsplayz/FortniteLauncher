@@ -16,6 +16,7 @@ namespace ggsLauncher
         public static string downloadpath = Path.GetTempPath();
         public static string configFile = "config.json";
         public static string logFile = "LOG.txt";
+        public static bool InjectConsole = false; //Adding in future release
 
         public static void Main()
         {
