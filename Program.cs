@@ -109,6 +109,8 @@ ______         _         _ _       _                            _
             Console.WriteLine(" * [1] Private");
             Console.WriteLine(" * [2] Hybrid");
             Console.WriteLine(" ");
+            Console.WriteLine(" * [9] Settings");
+            Console.WriteLine(" ");
             Console.Write(" Selection: ");
             string HybridOrNot = Console.ReadLine();
             if (HybridOrNot == "1")
@@ -119,6 +121,10 @@ ______         _         _ _       _                            _
             {
                 Hybrid();
             } 
+            else if (HybridOrNot == "9")
+            {
+                Settings.SettingsScreen();
+            }
             else
             {
                 Environment.Exit(0);
