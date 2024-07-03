@@ -9,12 +9,14 @@ namespace ggsLauncher
         public static bool UseBackendWhenPrivate;
         public static bool HeadlessWhenPrivate;
         public static bool InjectGameServer;
+        public static bool InjectConsole;
 
         // Booleans to apply stuff inside the code
         public static bool IsUsingHybridBackend;
         public static bool IsUsingPrivateBackend;
         public static bool IsUsingHeadlessGame;
         public static bool IsUsingGameServer;
+        public static bool IsUsingUeConsole;
 
         // UI
         private static string IsEnabled = "[x]";
@@ -24,9 +26,10 @@ namespace ggsLauncher
         " 1. Enable built-in backend for Private (Port 3551)",
         " 2. Enable built-in backend for Hybrid (Port 3551) ",
         " 3. Use Headless game launch                       ",
-        " 4. Inject GameServer                              "
+        " 4. Inject GameServer                              ",
+        " 5. Inject Unreal Engine Console                   "
         };
-        private static bool[] settingsStates = new bool[4];
+        private static bool[] settingsStates = new bool[5];
 
         public static void SettingsScreen()
         {
@@ -44,20 +47,20 @@ namespace ggsLauncher
                 Console.WriteLine(" ");
                 Console.WriteLine(" ");
                 Console.WriteLine("PLEASE NOTE THAT NONE OF THESE SETTINGS ARE IMPLEMENTED YET TO THE CODE, THIS IS PURE UI TESTING");
-                Console.WriteLine("Use numbers (1 - 4) to change settings, enter 69 to go back.");
+                Console.WriteLine("Use numbers (1 - 5) to change settings, enter 0 to go back.");
                 Console.WriteLine(" ");
                 Console.Write("Setting: ");
 
                 string input = Console.ReadLine();
                 if (int.TryParse(input, out int n))
                 {
-                    if (n == 69)
+                    if (n == 0)
                     {
                         exit = true;
                         Console.Clear();
                         ggsLauncher.Program.ActualProgram();
                     }
-                    else if (n >= 1 && n <= 4)
+                    else if (n >= 1 && n <= 5)
                     {
                         ToggleSetting(n - 1);
                     }
@@ -143,6 +146,20 @@ namespace ggsLauncher
                     {
                         InjectGameServer = false;
                         IsUsingGameServer = false;
+                        PrintSetting(index);
+                    }
+                } else if (index == 5)
+                {
+                    if (InjectConsole == false)
+                    {
+                        InjectConsole = true;
+                        IsUsingUeConsole = true;
+                        PrintSetting(index);
+
+                    } else if (InjectConsole == true)
+                    {
+                        InjectConsole = false;
+                        IsUsingUeConsole = false;
                         PrintSetting(index);
                     }
                 }
