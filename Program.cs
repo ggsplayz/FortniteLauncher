@@ -1,9 +1,7 @@
-using Newtonsoft.Json; // REMEMBER TO CHECK IF PACKAGE IS INSTALLED!
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json; // Remember to check if all the packages are installed!
 using System.Collections;
 using System.Diagnostics;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ggsLauncher
 {
@@ -13,6 +11,7 @@ namespace ggsLauncher
         public static string mail;
         public static string pass;
         public static string RedirFilePath;
+        public static string CustomLink;
         public static string downloadpath = Path.GetTempPath();
         public static string configFile = "config.json";
         public static string logFile = "LOG.txt";
@@ -176,20 +175,41 @@ ______         _         _ _       _                            _
             Console.WriteLine("1. 3551 (Typically used by LawinServer)");
             Console.WriteLine("2. 8008");
             Console.WriteLine("3. 7777 ");
+            Console.WriteLine("4. 5555 ");
+            Console.WriteLine("5. 1111 ");
+            Console.WriteLine("6. 8888 ");
             Console.WriteLine(" ");
+            Console.WriteLine("99. Custom...");
+            Console.WriteLine(" ");
+            Console.WriteLine("0. Main Screen ");
             int port;
             if (int.TryParse(Console.ReadLine(), out port))
             {
                 switch (port)
                 {
+                    case 0:
+                        ActualProgram();
+                        break;
                     case 1:
-                        Launch3551();
+                        Launch(3551);
                         break;
                     case 2:
-                        Launch8008();
+                        Launch(8008);
                         break;
                     case 3:
-                        Launch7777();
+                        Launch(7777);
+                        break;
+                    case 4:
+                        Launch(5555);
+                        break;
+                    case 5:
+                        Launch(1111);
+                        break;
+                    case 6:
+                        Launch(8888);
+                        break;
+                    case 99:
+                        CustomLaunch();
                         break;
                 }
             }
@@ -202,199 +222,146 @@ ______         _         _ _       _                            _
             }
         }
 
-        // Void for every Port, add more if needed
+        // Void for launching Fortnite and suspending EAC 
 
-        public static void Launch3551()
+        public static void Launch(int PORT)
         {
-            //If download link stops working, means that I deleted the server where the dll was allocated. You can compile other https://github.com/Milxnor/Cobalt
-            /*
-            3551 dll: https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/3551.dll
-            */
-            Console.Clear();
-            Console.WriteLine("[LOG] USING 3551.dll"); Log("Launch process started using 3551.dll");
-            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
-            string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
-            string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+            //If download link stops working, means that I deleted the dll files. You can compile other https://github.com/Milxnor/Cobalt
 
-            WebClient n1 = new WebClient();
-            try
+            if (PORT == 9999)
             {
-                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/3551.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
-                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
-            }
-            catch
-            {
-                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
-                Thread.Sleep(1000);
-                ActualProgram();
-            }
-            
+                Console.Clear();
+                Console.WriteLine($"[LOG] USING CUSTOM DLL");
+                Log($"Launch process started using a custom dll ({CustomLink})");
 
-            //FortniteClient-Win64-Shipping.exe
-            string PrimerosArgs = $"-epicapp=Fortnite -epicenv=Prod -epicportal -noeac -fromfl=be -fltoken=h1cdhchd10150221h130eB56 -skippatchcheck -AUTH_TYPE=epic -AUTH_LOGIN={mail} -AUTH_PASSWORD={pass}";
-            Process Fortnite = new Process
-            {
-                StartInfo = new ProcessStartInfo(FortniteEXE, PrimerosArgs)
+                string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
+                string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
+                string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+
+                WebClient n1 = new WebClient();
+                try
                 {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = false
+                    n1.DownloadFile($"{CustomLink}", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                    Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                    RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
                 }
-            };
+                catch
+                {
+                    Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, CHECK IF THE LINK IS PUBLIC?"); Log("Failed patching game files, check if the link is public");
+                    Thread.Sleep(1000);
+                    ActualProgram();
+                }
 
-            //FortniteLauncher.exe / BattleEye
-            Process Bee = new Process();
-            Bee.StartInfo.FileName = FortniteBEEXE;
-            Bee.Start();
-            foreach (ProcessThread thread in Bee.Threads)
-                Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+                //FortniteClient-Win64-Shipping.exe
+                string PrimerosArgs = $"-epicapp=Fortnite -epicenv=Prod -epicportal -noeac -fromfl=be -fltoken=h1cdhchd10150221h130eB56 -skippatchcheck -AUTH_TYPE=epic -AUTH_LOGIN={mail} -AUTH_PASSWORD={pass}";
+                Process Fortnite = new Process
+                {
+                    StartInfo = new ProcessStartInfo(FortniteEXE, PrimerosArgs)
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = false
+                    }
+                };
 
-            //FortniteClient-Win64-Shipping_EAC.exe
-            Process EasyAntiCheet = new Process();
-            EasyAntiCheet.StartInfo.FileName = EasyACEXE;
-            EasyAntiCheet.Start();
-            foreach (ProcessThread thread in EasyAntiCheet.Threads)
-                Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+                //FortniteLauncher.exe / BattleEye
+                Process Bee = new Process();
+                Bee.StartInfo.FileName = FortniteBEEXE;
+                Bee.Start();
+                foreach (ProcessThread thread in Bee.Threads)
+                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
-            //Start Fortnite
-            Fortnite.Start(); Log("Fortnite was launched successfully");
-            Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
-            Fortnite.WaitForExit();
-            File.Delete(RedirFilePath);
+                //FortniteClient-Win64-Shipping_EAC.exe
+                Process EasyAntiCheet = new Process();
+                EasyAntiCheet.StartInfo.FileName = EasyACEXE;
+                EasyAntiCheet.Start();
+                foreach (ProcessThread thread in EasyAntiCheet.Threads)
+                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
-            Console.WriteLine("Press any key to go back to the main screen...");
-            Console.ReadKey();
-            Console.Clear();
-            ActualProgram();
+                //Start Fortnite
+                Fortnite.Start(); Log("Fortnite was launched successfully");
+                Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
+                Fortnite.WaitForExit();
+                File.Delete(RedirFilePath);
 
+                Console.WriteLine("Press any key to go back to the main screen...");
+                Console.ReadKey();
+                Console.Clear();
+                ActualProgram();
+            } 
+            else
+            {
+                Console.Clear();
+                Console.WriteLine($"[LOG] USING {PORT.ToString()}.dll");
+                Log($"Launch process started using {PORT.ToString()}.dll");
+                string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
+                string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
+                string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
+
+                WebClient n1 = new WebClient();
+                try
+                {
+                    n1.DownloadFile($"https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/{PORT.ToString()}.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
+                    Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                    RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
+                }
+                catch
+                {
+                    Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
+                    Thread.Sleep(1000);
+                    ActualProgram();
+                }
+
+
+                //FortniteClient-Win64-Shipping.exe
+                string PrimerosArgs = $"-epicapp=Fortnite -epicenv=Prod -epicportal -noeac -fromfl=be -fltoken=h1cdhchd10150221h130eB56 -skippatchcheck -AUTH_TYPE=epic -AUTH_LOGIN={mail} -AUTH_PASSWORD={pass}";
+                Process Fortnite = new Process
+                {
+                    StartInfo = new ProcessStartInfo(FortniteEXE, PrimerosArgs)
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = false
+                    }
+                };
+
+                //FortniteLauncher.exe / BattleEye
+                Process Bee = new Process();
+                Bee.StartInfo.FileName = FortniteBEEXE;
+                Bee.Start();
+                foreach (ProcessThread thread in Bee.Threads)
+                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+
+                //FortniteClient-Win64-Shipping_EAC.exe
+                Process EasyAntiCheet = new Process();
+                EasyAntiCheet.StartInfo.FileName = EasyACEXE;
+                EasyAntiCheet.Start();
+                foreach (ProcessThread thread in EasyAntiCheet.Threads)
+                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+
+                //Start Fortnite
+                Fortnite.Start(); Log("Fortnite was launched successfully");
+                Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
+                Fortnite.WaitForExit();
+                File.Delete(RedirFilePath);
+
+                Console.WriteLine("Press any key to go back to the main screen...");
+                Console.ReadKey();
+                Console.Clear();
+                ActualProgram();
+            }  
         }
 
-        public static void Launch8008()
+        public static void CustomLaunch()
         {
-            //If download link stops working, means that I deleted the server where the dll was allocated. You can compile other https://github.com/Milxnor/Cobalt
-            /*
-            8008 dll: https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/8008.dll
-            */
             Console.Clear();
-            Console.WriteLine("[LOG] USING 8008.dll"); Log("Launch process started using 8008.dll");
-            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
-            string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
-            string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
-
-            WebClient n1 = new WebClient();
-            try
-            {
-                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/8008.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
-                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
-            }
-            catch
-            {
-                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
-                Thread.Sleep(1000);
-                ActualProgram();
-            }
-
-
-            //FortniteClient-Win64-Shipping.exe
-            string PrimerosArgs = $"-epicapp=Fortnite -epicenv=Prod -epicportal -noeac -fromfl=be -fltoken=h1cdhchd10150221h130eB56 -skippatchcheck -AUTH_TYPE=epic -AUTH_LOGIN={mail} -AUTH_PASSWORD={pass}";
-            Process Fortnite = new Process
-            {
-                StartInfo = new ProcessStartInfo(FortniteEXE, PrimerosArgs)
-                {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = false
-                }
-            };
-
-            //FortniteLauncher.exe / BattleEye
-            Process Bee = new Process();
-            Bee.StartInfo.FileName = FortniteBEEXE;
-            Bee.Start();
-            foreach (ProcessThread thread in Bee.Threads)
-                Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
-
-            //FortniteClient-Win64-Shipping_EAC.exe
-            Process EasyAntiCheet = new Process();
-            EasyAntiCheet.StartInfo.FileName = EasyACEXE;
-            EasyAntiCheet.Start();
-            foreach (ProcessThread thread in EasyAntiCheet.Threads)
-                Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
-
-            //Start Fortnite
-            Fortnite.Start(); Log("Fortnite was launched successfully");
-            Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
-            Fortnite.WaitForExit();
-            File.Delete(RedirFilePath);
-
-            Console.WriteLine("Press any key to go back to the main screen...");
+            Console.WriteLine(" ");
+            Console.WriteLine("Please, enter your redirection DLL download link.");
+            Console.Write("LINK: ");
+            CustomLink = Console.ReadLine();
+            Console.WriteLine(" ");
+            Console.WriteLine("Press any key to launch Fortnite...");
             Console.ReadKey();
-            Console.Clear();
-            ActualProgram();
-        }
 
-        public static void Launch7777()
-        {
-            //If download link stops working, means that I deleted the server where the dll was allocated. You can compile other https://github.com/Milxnor/Cobalt
-            /*
-            7777 dll: https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/7777.dll
-            */
-            Console.Clear();
-            Console.WriteLine("[LOG] USING 7777.dll"); Log("Launch process started using 7777.dll");
-            string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
-            string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
-            string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
-
-            WebClient n1 = new WebClient();
-            try
-            {
-                n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/7777.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
-                RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
-            }
-            catch
-            {
-                Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
-                Thread.Sleep(1000);
-                ActualProgram();
-            }
-
-
-            //FortniteClient-Win64-Shipping.exe
-            string PrimerosArgs = $"-epicapp=Fortnite -epicenv=Prod -epicportal -noeac -fromfl=be -fltoken=h1cdhchd10150221h130eB56 -skippatchcheck -AUTH_TYPE=epic -AUTH_LOGIN={mail} -AUTH_PASSWORD={pass}";
-            Process Fortnite = new Process
-            {
-                StartInfo = new ProcessStartInfo(FortniteEXE, PrimerosArgs)
-                {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = false
-                }
-            };
-
-            //FortniteLauncher.exe / BattleEye
-            Process Bee = new Process();
-            Bee.StartInfo.FileName = FortniteBEEXE;
-            Bee.Start();
-            foreach (ProcessThread thread in Bee.Threads)
-                Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
-
-            //FortniteClient-Win64-Shipping_EAC.exe
-            Process EasyAntiCheet = new Process();
-            EasyAntiCheet.StartInfo.FileName = EasyACEXE;
-            EasyAntiCheet.Start();
-            foreach (ProcessThread thread in EasyAntiCheet.Threads)
-                Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
-
-            //Start Fortnite
-            Fortnite.Start(); Log("Fortnite was launched successfully");
-            Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
-            Fortnite.WaitForExit();
-            File.Delete(RedirFilePath);
-
-            Console.WriteLine("Press any key to go back to the main screen...");
-            Console.ReadKey();
-            Console.Clear();
-            ActualProgram();
+            Launch(9999);
         }
 
         // S13 Hybrid
