@@ -1,5 +1,6 @@
 using Newtonsoft.Json; // Remember to check if all the packages are installed!
 using System.Collections;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Net;
 
@@ -11,7 +12,9 @@ namespace ggsLauncher
         public static string mail;
         public static string pass;
         public static string RedirFilePath;
+        public static string RedirFilePath32; // Older Builds
         public static string CustomLink;
+        public static string FortniteBuild; // Specify fortnite client build (ex; 1.7.2, 4.1, 11.31 etc)
         public static string downloadpath = Path.GetTempPath();
         public static string configFile = "config.json";
         public static string logFile = "LOG.txt";
@@ -31,8 +34,21 @@ namespace ggsLauncher
 
             if (File.Exists(configFile))
             {
-                LoadConfig();
-                PortSelection();
+                Console.WriteLine("Do you want to load existing configurations? Y/N");
+                Console.WriteLine(" ");
+                Console.Write("Selection: ");
+                string IsLoadingConfig = Console.ReadLine();
+
+                if (IsLoadingConfig == "Yes" || IsLoadingConfig == "Y" || IsLoadingConfig == "y" || IsLoadingConfig == "yes")
+                {
+                    Utils.LoadConfig();
+                    PortSelection();
+                } 
+                else if (IsLoadingConfig == "No" || IsLoadingConfig == "N" || IsLoadingConfig == "n" || IsLoadingConfig == "no")
+                {
+                    Console.Clear();
+                    ActualProgram();
+                }
             }
             else
             {
@@ -41,66 +57,16 @@ namespace ggsLauncher
             
         }
 
-        static void Log(string message)
-        {
-            try
-            {
-                string finalLog = $"[{DateTime.Now}] - {message}";
-                using (StreamWriter sw = File.AppendText(logFile))
-                {
-                    sw.WriteLine(finalLog);
-                }
-            }
-            catch (Exception ex)
-            {
-                
-            }
-        }
-
-        // V1.5
-        public static void LoadConfig()
-        {
-            if (File.Exists(configFile))
-            {
-                string json = File.ReadAllText(configFile);
-                dynamic config = JsonConvert.DeserializeObject(json);
-                path = config.path;
-                mail = config.mail;
-                pass = config.pass;
-                Console.WriteLine("Loading Saved Configuration...");
-                Thread.Sleep(1000); 
-            }
-            else
-            {
-                File.Create(configFile);
-                path = "";
-                mail = "";
-                pass = "";
-            }
-        }
-
-        public static void SaveConfig()
-        {
-            dynamic config = new
-            {
-                path,
-                mail,
-                pass
-            };
-            string json = JsonConvert.SerializeObject(config, Formatting.Indented);
-            File.WriteAllText(configFile, json);
-        }
-
         public static void ActualProgram()
         {
-            Log("The launcher was run without any previous configuration");
+            Utils.Log("The launcher has been run without any previous configuration");
             Console.WriteLine(@"
 ______         _         _ _       _                            _               
 |  ___|       | |       (_) |     | |                          | |              
 | |_ ___  _ __| |_ _ __  _| |_ ___| |     __ _ _   _ _ __   ___| |__   ___ _ __ 
 |  _/ _ \| '__| __| '_ \| | __/ _ \ |    / _` | | | | '_ \ / __| '_ \ / _ \ '__|
 | || (_) | |  | |_| | | | | ||  __/ |___| (_| | |_| | | | | (__| | | |  __/ |   
-\_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|");
+\_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|"); // Little ugly in the code
             Console.WriteLine(" ");    
             Console.WriteLine("Please, select an option and then press ENTER");
             Console.WriteLine(" ");
@@ -135,33 +101,43 @@ ______         _         _ _       _                            _
 |  _/ _ \| '__| __| '_ \| | __/ _ \ |    / _` | | | | '_ \ / __| '_ \ / _ \ '__|
 | || (_) | |  | |_| | | | | ||  __/ |___| (_| | |_| | | | | (__| | | |  __/ |   
 \_| \___/|_|   \__|_| |_|_|\__\___\_____/\__,_|\__,_|_| |_|\___|_| |_|\___|_|");
+            
             Console.WriteLine(" ");
             Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
             Console.WriteLine(" ");
             path = Console.ReadLine(); 
-            Log($"Local variable ´path´ was changed to {path}");
+            Utils.Log($"Local variable \"path\" was changed to {path}");
+
             Console.WriteLine(" ");
             Console.WriteLine("Enter the name/email that you use");
             Console.WriteLine(" ");
             mail = Console.ReadLine();
-            Log($"Local variable ´mail´ was changed to {mail}");
+            Utils.Log($"Local variable \"mail\" was changed to {mail}");
+
             Console.WriteLine(" ");
             Console.WriteLine("Enter the password, put a random one if not needed");
             Console.WriteLine(" ");
             pass = Console.ReadLine();
-            Log($"Local variable ´pass´ was changed to {pass}");
+            Utils.Log($"Local variable \"pass\" was changed to {pass}");
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Enter your Fortnite Build (ex; 1.7.2, 4.1, 11.31...)"); // Will have automatic detection in future
+            Console.WriteLine(" ");
+            FortniteBuild = Console.ReadLine();
+            Utils.Log($"Local variable \"FortniteBuild\" was changed to {FortniteBuild}");
+
             Console.WriteLine(" ");
             try
             {
-                SaveConfig();
-                Console.WriteLine($"Saved Configuration to \\config.json");
-                Log("Configuration saved successfully");
+                Utils.SaveConfig();
+                Console.WriteLine($"Saved Configuration to \"\\config.json\"");
+                Utils.Log("Configuration saved successfully");
                 Thread.Sleep(1000);
             }
             catch 
             {
                 Console.WriteLine("Configuration not saved! Continuing... (Check if launcher was run as administrator)");
-                Log("Configuration was not saved successfully (Try running as administrator)");
+                Utils.Log("Configuration was not saved successfully (Try running as administrator)");
                 Thread.Sleep(1000);
             }
             PortSelection();
@@ -182,6 +158,8 @@ ______         _         _ _       _                            _
             Console.WriteLine("99. Custom...");
             Console.WriteLine(" ");
             Console.WriteLine("0. Main Screen ");
+            Console.WriteLine(" ");
+            Console.Write("Selection: ");
             int port;
             if (int.TryParse(Console.ReadLine(), out port))
             {
@@ -209,7 +187,7 @@ ______         _         _ _       _                            _
                         Launch(8888);
                         break;
                     case 99:
-                        CustomLaunch();
+                        Utils.CustomLaunch();
                         break;
                 }
             }
@@ -232,7 +210,7 @@ ______         _         _ _       _                            _
             {
                 Console.Clear();
                 Console.WriteLine($"[LOG] USING CUSTOM DLL");
-                Log($"Launch process started using a custom dll ({CustomLink})");
+                Utils.Log($"Launch process started using a custom dll ({CustomLink})");
 
                 string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
                 string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
@@ -242,12 +220,14 @@ ______         _         _ _       _                            _
                 try
                 {
                     n1.DownloadFile($"{CustomLink}", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                    Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                    n1.DownloadFile($"{CustomLink}", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll"));
+                    Console.WriteLine("[LOG] PATCHED FILES"); Utils.Log("Successfully patched game files");
                     RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
+                    RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
                 }
                 catch
                 {
-                    Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, CHECK IF THE LINK IS PUBLIC?"); Log("Failed patching game files, check if the link is public");
+                    Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, CHECK IF THE LINK IS PUBLIC?"); Utils.Log("Failed patching game files, check if the link is public");
                     Thread.Sleep(1000);
                     ActualProgram();
                 }
@@ -278,7 +258,7 @@ ______         _         _ _       _                            _
                     Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
                 //Start Fortnite
-                Fortnite.Start(); Log("Fortnite was launched successfully");
+                Fortnite.Start(); Utils.Log("Fortnite was launched successfully");
                 Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
                 Fortnite.WaitForExit();
                 File.Delete(RedirFilePath);
@@ -292,7 +272,7 @@ ______         _         _ _       _                            _
             {
                 Console.Clear();
                 Console.WriteLine($"[LOG] USING {PORT.ToString()}.dll");
-                Log($"Launch process started using {PORT.ToString()}.dll");
+                Utils.Log($"Launch process started using {PORT.ToString()}.dll");
                 string FortniteEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
                 string EasyACEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping_EAC.exe");
                 string FortniteBEEXE = Path.Combine(path, "FortniteGame\\Binaries\\Win64\\FortniteLauncher.exe");
@@ -301,12 +281,15 @@ ______         _         _ _       _                            _
                 try
                 {
                     n1.DownloadFile($"https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/{PORT.ToString()}.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                    Console.WriteLine("[LOG] PATCHED FILES"); Log("Successfully patched game files");
+                    n1.DownloadFile($"https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/{PORT.ToString()}.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll")); // Older Builds
+                    Console.WriteLine("[LOG] PATCHED FILES"); Utils.Log("Successfully patched game files");
                     RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
+                    RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
+
                 }
                 catch
                 {
-                    Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Log("Failed patching game files, maybe the files were removed from server?");
+                    Console.WriteLine("[LOG] FAILED DOWNLOADING & PATCHING FILES, THE FILES MAYBE ARE DELETED"); Utils.Log("Failed patching game files, maybe the files were removed from server?");
                     Thread.Sleep(1000);
                     ActualProgram();
                 }
@@ -326,42 +309,49 @@ ______         _         _ _       _                            _
                 //FortniteLauncher.exe / BattleEye
                 Process Bee = new Process();
                 Bee.StartInfo.FileName = FortniteBEEXE;
-                Bee.Start();
-                foreach (ProcessThread thread in Bee.Threads)
-                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
                 //FortniteClient-Win64-Shipping_EAC.exe
                 Process EasyAntiCheet = new Process();
                 EasyAntiCheet.StartInfo.FileName = EasyACEXE;
-                EasyAntiCheet.Start();
-                foreach (ProcessThread thread in EasyAntiCheet.Threads)
-                    Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
 
-                //Start Fortnite
-                Fortnite.Start(); Log("Fortnite was launched successfully");
-                Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
-                Fortnite.WaitForExit();
-                File.Delete(RedirFilePath);
 
-                Console.WriteLine("Press any key to go back to the main screen...");
-                Console.ReadKey();
-                Console.Clear();
-                ActualProgram();
+                if (FortniteBuild == "1.7.2" || FortniteBuild == "0.6.5") // Case sensitive, for example, 1.7.2 usually comes without FortniteLauncher exe
+                {
+                    //Start Fortnite
+                    Fortnite.Start(); Utils.Log("Fortnite was launched successfully");
+
+                    Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
+                    Fortnite.WaitForExit();
+                    File.Delete(RedirFilePath);
+                    File.Delete(RedirFilePath32);
+
+                    Console.WriteLine("Press any key to go back to the main screen...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    ActualProgram();
+                } 
+                else
+                {
+                    Bee.Start();
+                    foreach (ProcessThread thread in Bee.Threads)
+                        Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+                    EasyAntiCheet.Start();
+                    foreach (ProcessThread thread in EasyAntiCheet.Threads)
+                        Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
+                    //Start Fortnite
+                    Fortnite.Start(); Utils.Log("Fortnite was launched successfully");
+
+                    Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
+                    Fortnite.WaitForExit();
+                    File.Delete(RedirFilePath);
+                    File.Delete(RedirFilePath32);
+
+                    Console.WriteLine("Press any key to go back to the main screen...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    ActualProgram();
+                }
             }  
-        }
-
-        public static void CustomLaunch()
-        {
-            Console.Clear();
-            Console.WriteLine(" ");
-            Console.WriteLine("Please, enter your redirection DLL download link.");
-            Console.Write("LINK: ");
-            CustomLink = Console.ReadLine();
-            Console.WriteLine(" ");
-            Console.WriteLine("Press any key to launch Fortnite...");
-            Console.ReadKey();
-
-            Launch(9999);
         }
 
         // S13 Hybrid
@@ -375,7 +365,7 @@ ______         _         _ _       _                            _
             Console.Clear();
             
             
-            Log("Using S13 Hybrid");
+            Utils.Log("Using S13 Hybrid");
             
 
             Console.WriteLine(@"
@@ -415,12 +405,12 @@ ______         _         _ _       _                            _
 
             Console.WriteLine(" ");
             Console.WriteLine(" ");
-            Console.WriteLine($"Logged in as: {username}"); Log($"Logged to an Epic Games Account, id {username}");
+            Console.WriteLine($"Logged in as: {username}"); Utils.Log($"Logged to an Epic Games Account, id {username}");
             Console.WriteLine(" ");
             Console.WriteLine("Enter your Fortnite Path (Folder with Engine and FortniteGame)");
             Console.WriteLine(" ");
             path = Console.ReadLine();
-            Log($"Local variable ´path´ was changed to {path}");
+            Utils.Log($"Local variable ´path´ was changed to {path}");
 
             exchange = HybridUtils.GetExchange(token);
 
@@ -434,7 +424,7 @@ ______         _         _ _       _                            _
 
                 // Hybrid (Redir. to port 3551, hybrid backend recommended)
                 n1.DownloadFile("https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/S13.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                Log("Patched game files for S13 Hybrid");
+                Utils.Log("Patched game files for S13 Hybrid");
                 RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
 
                 string arguments1 = "-AUTH_LOGIN=unused -AUTH_PASSWORD=" + exchange + " -AUTH_TYPE=exchangecode -epicapp=Fortnite -epicenv=Prod -epiclocale=en-us -epicportal -noeac -fromfl=be -fltoken=1d2ae436h94ad05b56f91fhc - skippatchcheck";
@@ -452,16 +442,16 @@ ______         _         _ _       _                            _
                 FNLP.Start();
                 foreach (ProcessThread thread in FNLP.Threads)
                     Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
-                Console.WriteLine("[LOG] Suspended FortniteLauncher process"); Log("Suspended FortniteLauncher process");
+                Console.WriteLine("[LOG] Suspended FortniteLauncher process"); Utils.Log("Suspended FortniteLauncher process");
                 Process EACP = new Process();
                 EACP.StartInfo.FileName = EAC;
                 EACP.StartInfo.Arguments = "-epiclocale=en -fromfl=be -fltoken=1d2ae436h94ad05b56f91fhc -frombe";
                 EACP.Start();
                 foreach (ProcessThread thread in (ReadOnlyCollectionBase)EACP.Threads)
                     Win32.SuspendThread(Win32.OpenThread(2, false, thread.Id));
-                Console.WriteLine("[LOG] Suspended EasyAntiCheat process"); Log("Suspended EasyAntiCheat process");
+                Console.WriteLine("[LOG] Suspended EasyAntiCheat process"); Utils.Log("Suspended EasyAntiCheat process");
                 Fortnite.Start();
-                Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES"); Log("Started Hybrid Fortnite");
+                Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES"); Utils.Log("Started Hybrid Fortnite");
                 Fortnite.WaitForExit();
                 try
                 {
