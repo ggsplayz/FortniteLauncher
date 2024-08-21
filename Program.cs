@@ -223,7 +223,7 @@ ______         _         _ _       _                            _
                     n1.DownloadFile($"{CustomLink}", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll"));
                     Console.WriteLine("[LOG] PATCHED FILES"); Utils.Log("Successfully patched game files");
                     RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
-                    RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
+                    //RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
                 }
                 catch
                 {
