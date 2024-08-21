@@ -223,7 +223,7 @@ ______         _         _ _       _                            _
                     n1.DownloadFile($"{CustomLink}", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll"));
                     Console.WriteLine("[LOG] PATCHED FILES"); Utils.Log("Successfully patched game files");
                     RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
-                    //RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
+                    RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
                 }
                 catch
                 {
@@ -281,10 +281,10 @@ ______         _         _ _       _                            _
                 try
                 {
                     n1.DownloadFile($"https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/{PORT.ToString()}.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll"));
-                    n1.DownloadFile($"https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/{PORT.ToString()}.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll")); // Older Builds
+                    //n1.DownloadFile($"https://github.com/ggsplayz/FortniteLauncher/raw/main/DLLs/{PORT.ToString()}.dll", Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll")); // Older Builds
                     Console.WriteLine("[LOG] PATCHED FILES"); Utils.Log("Successfully patched game files");
                     RedirFilePath = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.x64.dll");
-                    RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
+                    //RedirFilePath32 = Path.Combine(path, "Engine\\Binaries\\ThirdParty\\NVIDIA\\NVaftermath\\Win64", "GFSDK_Aftermath_Lib.dll");
 
                 }
                 catch
@@ -323,7 +323,7 @@ ______         _         _ _       _                            _
                     Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
                     Fortnite.WaitForExit();
                     File.Delete(RedirFilePath);
-                    File.Delete(RedirFilePath32);
+                    //File.Delete(RedirFilePath32);
 
                     Console.WriteLine("Press any key to go back to the main screen...");
                     Console.ReadKey();
@@ -344,7 +344,7 @@ ______         _         _ _       _                            _
                     Console.WriteLine("[LOG] LAUNCHED FORTNITE, THIS MAY TAKE SOME MINUTES");
                     Fortnite.WaitForExit();
                     File.Delete(RedirFilePath);
-                    File.Delete(RedirFilePath32);
+                    //File.Delete(RedirFilePath32);
 
                     Console.WriteLine("Press any key to go back to the main screen...");
                     Console.ReadKey();
@@ -475,4 +475,4 @@ ______         _         _ _       _                            _
     }
 }
 
-// If you see this, leave a star and have a great day!
+// If you see this, leave a star and have a grea
