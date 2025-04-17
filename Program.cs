@@ -1,3 +1,5 @@
+// this project is abandoned af
+
 using Newtonsoft.Json; // Remember to check if all the packages are installed!
 using System.Collections;
 using System.ComponentModel.Design;
@@ -475,4 +477,4 @@ ______         _         _ _       _                            _
     }
 }
 
-// If you see this, leave a star and have a grea
+// If you see this, leave a star and have a great day!
